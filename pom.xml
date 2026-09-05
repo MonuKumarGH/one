@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -16,14 +17,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Build old application code using Java 8 compatibility -->
         <maven.compiler.release>8</maven.compiler.release>
+
         <docker.image.prefix>kammana</docker.image.prefix>
         <sonar.host.url>http://18.181.164.81:9000</sonar.host.url>
-        
-        <!-- Frontend versions -->
-        <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
-        <node.version>v20.10.0</node.version>
-        <npm.version>10.2.3</npm.version>
     </properties>
 
     <dependencies>
@@ -33,51 +32,32 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-        
-        <!-- Optional: Add JSP and Servlet dependencies for backend UI rendering -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>2.3.3</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
     </dependencies>
 
     <repositories>
-        <repository>
-            <id>flm-feed</id>
-            <url>https://pkgs.dev.azure.com/afsanabegummd00/MyFirstProject/_packaging/flm-feed/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
+             <repository>
+                    <id>flm-feed</id>
+                    <url>https://pkgs.dev.azure.com/afsanabegummd00/MyFirstProject/_packaging/flm-feed/maven/v1</url>
+                    <releases>
+                      <enabled>true</enabled>
+                      </releases>
+                      <snapshots>
+                               <enabled>true</enabled>
+                      </snapshots>
+              </repository>
     </repositories>
 
     <distributionManagement>
-        <repository>
-            <id>flm-feed</id>
-            <url>https://pkgs.dev.azure.com/afsanabegummd00/MyFirstProject/_packaging/flm-feed/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
+            <repository>
+  <id>flm-feed</id>
+  <url>https://pkgs.dev.azure.com/afsanabegummd00/MyFirstProject/_packaging/flm-feed/maven/v1</url>
+  <releases>
+    <enabled>true</enabled>
+  </releases>
+  <snapshots>
+    <enabled>true</enabled>
+  </snapshots>
+</repository>
         <snapshotRepository>
             <id>nexusRepo</id>
             <url>http://34.208.218.12:8081/repository/sample-snapshots/</url>
@@ -115,60 +95,9 @@
                 <version>3.4.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <!-- Include frontend build output -->
-                    <webResources>
-                        <resource>
-                            <directory>src/main/webapp</directory>
-                            <filtering>true</filtering>
-                        </resource>
-                    </webResources>
                 </configuration>
-            </plugin>
-
-            <!-- Frontend Plugin: Install Node and NPM -->
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>${frontend-maven-plugin.version}</version>
-                <executions>
-                    <!-- Install Node and NPM -->
-                    <execution>
-                        <id>install-node-and-npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <nodeVersion>${node.version}</nodeVersion>
-                            <npmVersion>${npm.version}</npmVersion>
-                        </configuration>
-                    </execution>
-                    
-                    <!-- Install frontend dependencies -->
-                    <execution>
-                        <id>npm-install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <arguments>install</arguments>
-                        </configuration>
-                    </execution>
-                    
-                    <!-- Build frontend -->
-                    <execution>
-                        <id>npm-build</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <arguments>run build</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
+
 </project>
